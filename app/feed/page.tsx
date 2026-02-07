@@ -11,6 +11,7 @@ interface User {
 interface FeedCard {
   page_id: number;
   title: string;
+  display_title?: string;
   summary?: string;
   image?: string;
   link?: string;
@@ -37,7 +38,11 @@ export default function FeedPage() {
       .then((data: FeedCard[]) => setCards(data));
   }, []);
 
-  function openArticle(card: FeedCard) {
+  /* -------------------------
+     ACTION HANDLERS
+  ------------------------- */
+
+  function markSeen(card: FeedCard) {
     if (!user) return;
 
     fetch(`https://thecodeworks.in/pool/seen`, {
@@ -48,9 +53,44 @@ export default function FeedPage() {
         page_id: card.page_id,
       }),
     });
+  }
 
+  function likeArticle(card: FeedCard) {
+    if (!user) return;
+
+    fetch(`https://thecodeworks.in/pool/like`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: user.user_id,
+        page_id: card.page_id,
+      }),
+    });
+  }
+
+  function bookmarkArticle(card: FeedCard) {
+    if (!user) return;
+
+    fetch(`https://thecodeworks.in/pool/bookmark`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user_id: user.user_id,
+        page_id: card.page_id,
+      }),
+    });
+  }
+
+  function openArticle(card: FeedCard) {
+    markSeen(card);
+
+    // Navigate to reader
     router.push(`/article/${encodeURIComponent(card.title)}`);
   }
+
+  /* -------------------------
+     RENDER
+  ------------------------- */
 
   return (
     <div style={{ padding: 40 }}>
@@ -62,22 +102,33 @@ export default function FeedPage() {
           style={{
             border: "1px solid #ddd",
             padding: 16,
-            marginBottom: 16,
+            marginBottom: 20,
           }}
         >
           {card.image && (
-            <img src={card.image} width={200} alt={card.title} />
+            <img src={card.image} width={220} alt={card.display_title} />
           )}
 
-          <h3>{card.title}</h3>
-          <p>{card.summary}</p>
+          <h3>{card.display_title || card.title.replaceAll("_", " ")}</h3>
+
+          {card.summary && <p>{card.summary}</p>}
 
           <small>
             {card.source === "explore" ? "🌍 Explore" : "🎯 For you"}
           </small>
-          <br />
 
-          <button onClick={() => openArticle(card)}>Read</button>
+          <div style={{ marginTop: 10 }}>
+            <button onClick={() => openArticle(card)}>Read</button>
+            <button onClick={() => likeArticle(card)} style={{ marginLeft: 8 }}>
+              👍 Like
+            </button>
+            <button
+              onClick={() => bookmarkArticle(card)}
+              style={{ marginLeft: 8 }}
+            >
+              🔖 Bookmark
+            </button>
+          </div>
         </div>
       ))}
     </div>
