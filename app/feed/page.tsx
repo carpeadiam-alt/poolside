@@ -110,7 +110,7 @@ export default function FeedPage() {
           backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)',
           backgroundPosition: 'center',
           borderBottom: '1px solid #e5e5e5',
-          backdropFilter: 'blur(10px)',
+          
         }}>
           <div style={{
             backgroundColor: 'rgba(255, 255, 255, 0.95)',
