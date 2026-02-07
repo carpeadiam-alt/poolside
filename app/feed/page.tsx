@@ -113,7 +113,7 @@ export default function FeedPage() {
           
         }}>
           <div style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.95)',
+
             padding: '20px 40px',
             display: 'flex',
             justifyContent: 'space-between',
