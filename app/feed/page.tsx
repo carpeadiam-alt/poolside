@@ -115,7 +115,7 @@ export default function FeedPage() {
 
           <small>
             {card.source === "explore" ? "🌍 Explore" : "🎯 For you"}
-          </small>
+          </small> 
 
           <div style={{ marginTop: 10 }}>
             <button onClick={() => openArticle(card)}>Read</button>
