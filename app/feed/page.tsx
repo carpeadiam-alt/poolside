@@ -22,6 +22,8 @@ export default function FeedPage() {
   const router = useRouter();
   const [cards, setCards] = useState<FeedCard[]>([]);
   const [user, setUser] = useState<User | null>(null);
+  const [showHeader, setShowHeader] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -37,6 +39,25 @@ export default function FeedPage() {
       .then((res) => res.json())
       .then((data: FeedCard[]) => setCards(data));
   }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      if (currentScrollY < lastScrollY) {
+        // Scrolling up
+        setShowHeader(true);
+      } else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down
+        setShowHeader(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   /* -------------------------
      ACTION HANDLERS
@@ -103,17 +124,20 @@ export default function FeedPage() {
       }}>
         {/* Top Navigation Bar */}
         <header style={{
-          position: 'sticky',
+          position: 'fixed',
           top: 0,
+          left: 0,
+          right: 0,
           zIndex: 1000,
           backgroundSize: 'cover',
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)',
           backgroundPosition: 'center',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)',
           borderBottom: '1px solid #e5e5e5',
-          
+          backdropFilter: 'blur(10px)',
+          transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out',
         }}>
           <div style={{
-
             padding: '20px 40px',
             display: 'flex',
             justifyContent: 'space-between',
@@ -162,7 +186,7 @@ export default function FeedPage() {
         <main style={{
           maxWidth: '800px',
           margin: '0 auto',
-          padding: '60px 40px',
+          padding: '120px 40px 60px',
         }}>
           {cards.length === 0 ? (
             <div style={{
@@ -178,32 +202,31 @@ export default function FeedPage() {
               <article
                 key={card.page_id}
                 style={{
-                  marginBottom: '48px',
-                  paddingBottom: '48px',
-                  borderBottom: '1px solid #e5e5e5',
+                  marginBottom: '32px',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #e5e5e5',
+                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  transition: 'all 0.3s ease',
+                  overflow: 'hidden',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(0, 0, 0, 0.08)';
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.04)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                {/* Source Tag */}
-                <div style={{
-                  fontSize: '11px',
-                  letterSpacing: '1px',
-                  textTransform: 'uppercase',
-                  marginBottom: '16px',
-                  color: '#666666',
-                  fontWeight: 500,
-                }}>
-                  {card.source === "explore" ? "Explore" : "For You"}
-                </div>
-
                 {/* Article Image */}
                 {card.image && (
                   <div 
                     onClick={() => openArticle(card)}
                     style={{
-                      marginBottom: '20px',
                       cursor: 'pointer',
                       overflow: 'hidden',
                       backgroundColor: '#f5f5f5',
+                      height: '280px',
                     }}
                   >
                     <img
@@ -211,12 +234,13 @@ export default function FeedPage() {
                       alt={card.display_title || card.title}
                       style={{
                         width: '100%',
-                        height: 'auto',
+                        height: '100%',
+                        objectFit: 'cover',
                         display: 'block',
                         transition: 'transform 0.3s ease',
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.transform = 'scale(1.02)';
+                        e.currentTarget.style.transform = 'scale(1.05)';
                       }}
                       onMouseOut={(e) => {
                         e.currentTarget.style.transform = 'scale(1)';
@@ -225,124 +249,148 @@ export default function FeedPage() {
                   </div>
                 )}
 
-                {/* Article Title */}
-                <h2
-                  onClick={() => openArticle(card)}
-                  style={{
-                    fontFamily: "'DM Serif Text', serif",
-                    fontSize: '28px',
-                    fontWeight: 400,
-                    lineHeight: '1.3',
-                    margin: '0 0 16px 0',
-                    color: '#000000',
-                    cursor: 'pointer',
-                    letterSpacing: '-0.3px',
-                    transition: 'opacity 0.2s ease',
-                  }}
-                  onMouseOver={(e) => {
-                    e.currentTarget.style.opacity = '0.6';
-                  }}
-                  onMouseOut={(e) => {
-                    e.currentTarget.style.opacity = '1';
-                  }}
-                >
-                  {card.display_title || card.title.replaceAll("_", " ")}
-                </h2>
-
-                {/* Summary */}
-                {card.summary && (
-                  <p style={{
-                    fontSize: '15px',
-                    lineHeight: '1.7',
-                    color: '#333333',
-                    margin: '0 0 24px 0',
-                    fontWeight: 300,
+                <div style={{ padding: '24px' }}>
+                  {/* Source Tag */}
+                  <div style={{
+                    fontSize: '11px',
+                    letterSpacing: '1px',
+                    textTransform: 'uppercase',
+                    marginBottom: '12px',
+                    color: '#666666',
+                    fontWeight: 500,
                   }}>
-                    {card.summary}
-                  </p>
-                )}
+                    {card.source === "explore" ? "Explore" : "For You"}
+                  </div>
 
-                {/* Action Buttons */}
-                <div style={{
-                  display: 'flex',
-                  gap: '12px',
-                  flexWrap: 'wrap',
-                }}>
-                  <button
+                  {/* Article Title */}
+                  <h2
                     onClick={() => openArticle(card)}
                     style={{
-                      backgroundColor: '#000000',
-                      color: '#ffffff',
-                      border: 'none',
-                      padding: '10px 20px',
-                      fontSize: '13px',
-                      fontFamily: "'DM Mono', monospace",
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      letterSpacing: '0.5px',
+                      fontFamily: "'DM Serif Text', serif",
+                      fontSize: '24px',
                       fontWeight: 400,
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.backgroundColor = '#333333';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.backgroundColor = '#000000';
-                    }}
-                  >
-                    READ
-                  </button>
-
-                  <button
-                    onClick={() => likeArticle(card)}
-                    style={{
-                      backgroundColor: 'transparent',
+                      lineHeight: '1.3',
+                      margin: '0 0 12px 0',
                       color: '#000000',
-                      border: '1px solid #d0d0d0',
-                      padding: '10px 20px',
-                      fontSize: '13px',
-                      fontFamily: "'DM Mono', monospace",
                       cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      letterSpacing: '0.5px',
-                      fontWeight: 400,
+                      letterSpacing: '-0.3px',
+                      transition: 'opacity 0.2s ease',
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}
                     onMouseOver={(e) => {
-                      e.currentTarget.style.borderColor = '#000000';
-                      e.currentTarget.style.backgroundColor = '#f5f5f5';
+                      e.currentTarget.style.opacity = '0.6';
                     }}
                     onMouseOut={(e) => {
-                      e.currentTarget.style.borderColor = '#d0d0d0';
-                      e.currentTarget.style.backgroundColor = 'transparent';
+                      e.currentTarget.style.opacity = '1';
                     }}
                   >
-                    LIKE
-                  </button>
+                    {card.display_title || card.title.replaceAll("_", " ")}
+                  </h2>
 
-                  <button
-                    onClick={() => bookmarkArticle(card)}
-                    style={{
-                      backgroundColor: 'transparent',
-                      color: '#000000',
-                      border: '1px solid #d0d0d0',
-                      padding: '10px 20px',
-                      fontSize: '13px',
-                      fontFamily: "'DM Mono', monospace",
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                      letterSpacing: '0.5px',
-                      fontWeight: 400,
-                    }}
-                    onMouseOver={(e) => {
-                      e.currentTarget.style.borderColor = '#000000';
-                      e.currentTarget.style.backgroundColor = '#f5f5f5';
-                    }}
-                    onMouseOut={(e) => {
-                      e.currentTarget.style.borderColor = '#d0d0d0';
-                      e.currentTarget.style.backgroundColor = 'transparent';
-                    }}
-                  >
-                    BOOKMARK
-                  </button>
+                  {/* Summary */}
+                  {card.summary && (
+                    <p style={{
+                      fontSize: '14px',
+                      lineHeight: '1.6',
+                      color: '#555555',
+                      margin: '0 0 20px 0',
+                      fontWeight: 300,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 3,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}>
+                      {card.summary}
+                    </p>
+                  )}
+
+                  {/* Action Buttons */}
+                  <div style={{
+                    display: 'flex',
+                    gap: '10px',
+                    flexWrap: 'wrap',
+                  }}>
+                    <button
+                      onClick={() => openArticle(card)}
+                      style={{
+                        backgroundColor: '#000000',
+                        color: '#ffffff',
+                        border: 'none',
+                        padding: '10px 20px',
+                        fontSize: '12px',
+                        fontFamily: "'DM Mono', monospace",
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        letterSpacing: '0.5px',
+                        fontWeight: 400,
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = '#333333';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = '#000000';
+                      }}
+                    >
+                      READ
+                    </button>
+
+                    <button
+                      onClick={() => likeArticle(card)}
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: '#000000',
+                        border: '1px solid #d0d0d0',
+                        padding: '10px 20px',
+                        fontSize: '12px',
+                        fontFamily: "'DM Mono', monospace",
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        letterSpacing: '0.5px',
+                        fontWeight: 400,
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.borderColor = '#000000';
+                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.borderColor = '#d0d0d0';
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      LIKE
+                    </button>
+
+                    <button
+                      onClick={() => bookmarkArticle(card)}
+                      style={{
+                        backgroundColor: 'transparent',
+                        color: '#000000',
+                        border: '1px solid #d0d0d0',
+                        padding: '10px 20px',
+                        fontSize: '12px',
+                        fontFamily: "'DM Mono', monospace",
+                        cursor: 'pointer',
+                        transition: 'all 0.2s ease',
+                        letterSpacing: '0.5px',
+                        fontWeight: 400,
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.borderColor = '#000000';
+                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.borderColor = '#d0d0d0';
+                        e.currentTarget.style.backgroundColor = 'transparent';
+                      }}
+                    >
+                      BOOKMARK
+                    </button>
+                  </div>
                 </div>
               </article>
             ))
