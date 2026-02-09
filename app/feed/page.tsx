@@ -204,8 +204,7 @@ export default function FeedPage() {
                 style={{
                   marginBottom: '32px',
                   backgroundColor: '#ffffff',
-                  border: '1px solid #e5e5e5',
-                  boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
+                  border: '1px solid #000000',
                   transition: 'all 0.3s ease',
                   overflow: 'hidden',
                 }}
@@ -300,7 +299,7 @@ export default function FeedPage() {
                       margin: '0 0 20px 0',
                       fontWeight: 300,
                       display: '-webkit-box',
-                      WebkitLineClamp: 3,
+                      WebkitLineClamp: 6,
                       WebkitBoxOrient: 'vertical',
                       overflow: 'hidden',
                       textOverflow: 'ellipsis',
