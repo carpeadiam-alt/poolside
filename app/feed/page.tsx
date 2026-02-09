@@ -131,7 +131,7 @@ export default function FeedPage() {
           zIndex: 1000,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)', 
           borderBottom: '1px solid #e5e5e5',
           backdropFilter: 'blur(10px)',
           transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
