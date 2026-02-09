@@ -129,6 +129,7 @@ export default function FeedPage() {
           left: 0,
           right: 0,
           zIndex: 1000,
+          color: '#004911',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)', 
