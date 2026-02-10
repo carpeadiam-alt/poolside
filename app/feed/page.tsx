@@ -514,7 +514,6 @@ export default function FeedPage() {
                 title="Refresh feed"
                 style={{
                   background: 'transparent',
-                  border: '1px solid #000000',
                   width: '44px',
                   height: '44px',
                   borderRadius: '50%',
@@ -523,7 +522,7 @@ export default function FeedPage() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   transition: 'all 0.2s ease',
-                  fontSize: '30px',
+                  fontSize: '40px',
                   transform: 'translateY(-3px)',
 
                 }}
