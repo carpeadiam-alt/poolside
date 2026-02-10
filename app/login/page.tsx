@@ -63,42 +63,41 @@ export default function LoginPage() {
         backgroundColor: '#ffffff',
       }}>
         {/* Top Image Section */}
-<div style={{
-  position: 'relative',
-  backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-  backgroundPosition: 'center',
-  backgroundRepeat: 'no-repeat',
-  backgroundSize: 'cover',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '80px 30px', // ← THIS controls height now
-}}>
-  <div style={{
-    textAlign: 'center',
-  }}>
-    <h1 style={{
-      fontFamily: "'DM Serif Text', serif",
-      color: '#004911',
-      fontSize: '64px',
-      fontWeight: 400,
-      marginBottom: '8px',
-      letterSpacing: '-1px',
-    }}>
-      pooL
-    </h1>
-    <p style={{
-      fontFamily: "'DM Mono', monospace",
-      fontSize: '16px',
-      letterSpacing: '1px',
-      color: '#3C3C3C',
-      margin: 0,
-    }}>
-      doomscroll Wikipedia
-    </p>
-  </div>
-</div>
-
+        <div style={{
+          position: 'relative',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '80px 30px',
+        }}>
+          <div style={{
+            textAlign: 'center',
+          }}>
+            <h1 style={{
+              fontFamily: "'DM Serif Text', serif",
+              color: '#004911',
+              fontSize: '64px',
+              fontWeight: 400,
+              marginBottom: '8px',
+              letterSpacing: '-1px',
+            }}>
+              pooL
+            </h1>
+            <p style={{
+              fontFamily: "'DM Mono', monospace",
+              fontSize: '16px',
+              letterSpacing: '1px',
+              color: '#3C3C3C',
+              margin: 0,
+            }}>
+              doomscroll Wikipedia
+            </p>
+          </div>
+        </div>
 
         {/* Border Separator */}
         <div style={{
@@ -169,7 +168,6 @@ export default function LoginPage() {
               )}
             </div>
 
-
             {/* Input Fields */}
             <div style={{ marginBottom: '20px' }}>
               <input
@@ -198,8 +196,7 @@ export default function LoginPage() {
 
             <div style={{ marginBottom: '32px' }}>
               <input
-                type="text"
-                placeholder="DOB (YYYY-MM-DD)"
+                type="date"
                 value={dob}
                 onChange={(e) => setDob(e.target.value)}
                 style={{
@@ -211,6 +208,7 @@ export default function LoginPage() {
                   backgroundColor: '#ffffff',
                   outline: 'none',
                   transition: 'border-color 0.2s ease',
+                  colorScheme: 'light',
                 }}
                 onFocus={(e) => {
                   e.target.style.borderColor = '#000000';
