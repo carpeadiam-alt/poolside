@@ -114,6 +114,11 @@ export default function FeedPage() {
     router.push(`/article/${encodeURIComponent(card.title)}`);
   }
 
+  function refreshFeed() {
+  window.location.reload();
+}
+
+
   /* -------------------------
      RENDER
   ------------------------- */
@@ -497,6 +502,41 @@ export default function FeedPage() {
               }}>
                 {cards.length} {cards.length === 1 ? 'article' : 'articles'} in your feed
               </p>
+            {/* Refresh Feed */}
+            <div style={{
+              marginTop: '48px',
+              paddingBottom: '40px',
+              display: 'flex',
+              justifyContent: 'center',
+            }}>
+              <button
+                onClick={refreshFeed}
+                title="Refresh feed"
+                style={{
+                  background: 'transparent',
+                  border: '1px solid #000000',
+                  width: '44px',
+                  height: '44px',
+                  borderRadius: '50%',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseOver={(e) => {
+                  e.currentTarget.style.backgroundColor = '#000000';
+                  e.currentTarget.style.color = '#ffffff';
+                }}
+                onMouseOut={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = '#000000';
+                }}
+              >
+                ⟳
+              </button>
+            </div>
+
             </div>
           )}
         </main>
