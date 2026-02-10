@@ -123,20 +123,25 @@ export default function FeedPage() {
         fontFamily: "'DM Mono', monospace"
       }}>
         {/* Top Navigation Bar */}
-        <header style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 1000,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)', 
-          borderBottom: '1px solid #e5e5e5',
-          backdropFilter: 'blur(10px)',
-          transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.3s ease-in-out',
-        }}>
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+        backdropFilter: 'blur(10px)',
+        transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
+        transition: 'transform 0.3s ease-in-out',
+        boxShadow: `
+          0 1px 0 #000000,
+          0 11px 0 #ffffff,
+          0 12px 0 #000000
+        `,
+      }}>
+
           <div style={{
             padding: '20px 40px',
             display: 'flex',
