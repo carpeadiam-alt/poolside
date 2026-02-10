@@ -531,14 +531,15 @@ export default function FeedPage() {
                   WebkitAppearance: 'none',
 
                 }}
-                onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000';
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
-                }}
-                onMouseOut={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.transform = 'translateY(-3px)';
-                }}
+onMouseOver={(e) => {
+  e.currentTarget.style.backgroundColor = '#000';
+  e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
+}}
+onMouseOut={(e) => {
+  e.currentTarget.style.backgroundColor = 'transparent';
+  e.currentTarget.style.transform = 'translateY(-3px)';
+}}
+
 
               >
                 ⟳
