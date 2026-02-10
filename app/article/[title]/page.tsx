@@ -18,6 +18,8 @@ export default function ArticleReaderPage() {
   const [user, setUser] = useState<User | null>(null);
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -212,64 +214,92 @@ export default function ArticleReaderPage() {
         fontFamily: "'DM Mono', monospace"
       }}>
         {/* Top Navigation Bar */}
-        <header style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
+<header style={{
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  right: 0,
+  zIndex: 1000,
+  backgroundSize: 'cover',
+  backgroundPosition: 'center',
+  backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+  backdropFilter: 'blur(10px)',
+  transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
+  transition: 'transform 0.3s ease-in-out',
+  boxShadow: `
+    0 1px 0 #000000,
+    0 8px 0 #ffffff,
+    0 9px 0 #000000
+  `,
+}}>
+  <div style={{
+    padding: '20px 40px',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'relative',
+  }}>
+    <h1 style={{
+      fontFamily: "'DM Serif Text', serif",
+      fontSize: '32px',
+      fontWeight: 400,
+      margin: 0,
+      color: '#004911',
+      letterSpacing: '-0.5px',
+    }}>
+      Reader
+    </h1>
+
+    {/* Menu Button */}
+    <div style={{ position: 'relative' }}>
+    <button onClick={() => setMenuOpen(!menuOpen)} style={{ backgroundColor: 'transparent', border: '1px solid #000000', padding: '8px 18px', fontSize: '13px', fontFamily: "'DM Mono', monospace", cursor: 'pointer', letterSpacing: '1px', }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#000000'; e.currentTarget.style.color = '#ffffff'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#000000'; }} > MENU </button>
+
+
+
+      {/* Dropdown */}
+      {menuOpen && (
+        <div style={{
+          position: 'absolute',
           right: 0,
-          zIndex: 1000,
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          borderBottom: '1px solid #e5e5e5',
-          backdropFilter: 'blur(10px)',
-          transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
-          transition: 'transform 0.3s ease-in-out',
+          top: '110%',
+          backgroundColor: '#ffffff',
+          border: '1px solid #000000',
+          minWidth: '160px',
+          zIndex: 2000,
         }}>
-          <div style={{
-            padding: '20px 40px',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}>
-            <h1 style={{
-              fontFamily: "'DM Serif Text', serif",
-              fontSize: '32px',
-              fontWeight: 400,
-              margin: 0,
-              color: '#000000',
-              letterSpacing: '-0.5px',
-            }}>
-              Reader
-            </h1>
-            
-            <button
-              onClick={() => router.push('/')}
+          {[
+            { label: '> Home', path: '/' },
+            { label: '> Bookmarks', path: '/bookmarks' },
+            { label: '> Logout', path: '/logout' },
+          ].map((item) => (
+            <div
+              key={item.label}
+              onClick={() => {
+                setMenuOpen(false);
+                router.push(item.path);
+              }}
               style={{
-                backgroundColor: 'transparent',
-                border: '1px solid #000000',
-                padding: '10px 24px',
-                fontSize: '14px',
+                padding: '12px 16px',
                 fontFamily: "'DM Mono', monospace",
+                fontSize: '13px',
                 cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                color: '#000000',
-                fontWeight: 400,
-                letterSpacing: '0.5px',
+                borderBottom: item.label !== 'Logout' ? '1px solid #e5e5e5' : 'none',
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.backgroundColor = '#000000';
-                e.currentTarget.style.color = '#ffffff';
+                e.currentTarget.style.backgroundColor = '#f5f5f5';
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#000000';
+                e.currentTarget.style.backgroundColor = '#ffffff';
               }}
             >
-              HOME
-            </button>
-          </div>
-        </header>
+              {item.label}
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  </div>
+</header>
 
         {/* Article Content */}
         <main style={{
