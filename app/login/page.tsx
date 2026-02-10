@@ -114,7 +114,7 @@ export default function LoginPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '40px 20px',
+          padding: '30px 15px',
         }}>
           <div style={{
             width: '100%',
@@ -126,44 +126,46 @@ export default function LoginPage() {
           }}>
             {/* Toggle Links */}
             <div style={{
-              display: 'flex',
-              justifyContent: 'space-between',
               marginBottom: '32px',
+              textAlign: 'center',
             }}>
-              <button
-                onClick={() => setActiveForm("signup")}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: '13px',
-                  color: activeForm === "signup" ? '#000000' : '#666666',
-                  cursor: 'pointer',
-                  textDecoration: activeForm === "signup" ? 'underline' : 'none',
-                  padding: 0,
-                  letterSpacing: '0.5px',
-                }}
-              >
-                First time? Sign up here &gt;
-              </button>
-
-              <button
-                onClick={() => setActiveForm("login")}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: '13px',
-                  color: activeForm === "login" ? '#000000' : '#666666',
-                  cursor: 'pointer',
-                  textDecoration: activeForm === "login" ? 'underline' : 'none',
-                  padding: 0,
-                  letterSpacing: '0.5px',
-                }}
-              >
-                Have an account? Login &gt;
-              </button>
+              {activeForm === "login" ? (
+                <button
+                  onClick={() => setActiveForm("signup")}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: '13px',
+                    color: '#000000',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    padding: 0,
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  First time? Sign up here &gt;
+                </button>
+              ) : (
+                <button
+                  onClick={() => setActiveForm("login")}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: '13px',
+                    color: '#000000',
+                    cursor: 'pointer',
+                    textDecoration: 'underline',
+                    padding: 0,
+                    letterSpacing: '0.5px',
+                  }}
+                >
+                  Have an account? Login &gt;
+                </button>
+              )}
             </div>
+
 
             {/* Input Fields */}
             <div style={{ marginBottom: '20px' }}>
