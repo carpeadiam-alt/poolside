@@ -165,29 +165,7 @@ export default function FeedPage() {
 
     {/* Menu Button */}
     <div style={{ position: 'relative' }}>
-    <div
-      onClick={() => setMenuOpen(!menuOpen)}
-      style={{
-        width: '28px',
-        height: '22px',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        cursor: 'pointer',
-      }}
-      onMouseOver={(e) => {
-        const lines = e.currentTarget.querySelectorAll('div');
-        lines.forEach((line) => (line.style.opacity = '0.6'));
-      }}
-      onMouseOut={(e) => {
-        const lines = e.currentTarget.querySelectorAll('div');
-        lines.forEach((line) => (line.style.opacity = '1'));
-      }}
-    >
-      <div style={{ width: '100%', height: '2px', backgroundColor: '#ffffff' }} />
-      <div style={{ width: '100%', height: '2px', backgroundColor: '#ffffff' }} />
-      <div style={{ width: '100%', height: '2px', backgroundColor: '#ffffff' }} />
-    </div>
+    <button onClick={() => setMenuOpen(!menuOpen)} style={{ backgroundColor: 'transparent', border: '2px solid #000000', padding: '8px 18px', fontSize: '13px', fontFamily: "'DM Mono', monospace", cursor: 'pointer', letterSpacing: '1px', }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#000000'; e.currentTarget.style.color = '#ffffff'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#000000'; }} > MENU </button>
 
 
 
