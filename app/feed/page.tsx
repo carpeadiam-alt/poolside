@@ -504,8 +504,8 @@ export default function FeedPage() {
               </p>
             {/* Refresh Feed */}
             <div style={{
-              marginTop: '48px',
-              paddingBottom: '40px',
+              marginTop: '20px',
+              paddingBottom: '15px',
               display: 'flex',
               justifyContent: 'center',
             }}>
@@ -523,6 +523,7 @@ export default function FeedPage() {
                   alignItems: 'center',
                   justifyContent: 'center',
                   transition: 'all 0.2s ease',
+                  fontSize: '20px',
                 }}
                 onMouseOver={(e) => {
                   e.currentTarget.style.backgroundColor = '#000000';
