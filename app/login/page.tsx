@@ -63,39 +63,42 @@ export default function LoginPage() {
         backgroundColor: '#ffffff',
       }}>
         {/* Top Image Section */}
-        <div style={{
-          position: 'relative',
-          height: '300px',
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-          backgroundPosition: 'center',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
-          <div style={{
-            textAlign: 'center',
-            color: '#ffffff',
-          }}>
-            <h1 style={{
-              fontFamily: "'DM Serif Text', serif",
-              color:'#004911',
-              fontSize: '64px',
-              fontWeight: 400,
-              marginBottom: '8px',
-              letterSpacing: '-1px',
-            }}>
-              pooL
-            </h1>
-            <p style={{
-              fontFamily: "'DM Mono', monospace",
-              fontSize: '16px',
-              letterSpacing: '1px',
-              color:'#3C3C3C',
-            }}>
-              doomscoll Wikipedia
-            </p>
-          </div>
-        </div>
+<div style={{
+  position: 'relative',
+  backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+  backgroundPosition: 'center',
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'cover',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '120px 40px', // ← THIS controls height now
+}}>
+  <div style={{
+    textAlign: 'center',
+  }}>
+    <h1 style={{
+      fontFamily: "'DM Serif Text', serif",
+      color: '#004911',
+      fontSize: '64px',
+      fontWeight: 400,
+      marginBottom: '8px',
+      letterSpacing: '-1px',
+    }}>
+      pooL
+    </h1>
+    <p style={{
+      fontFamily: "'DM Mono', monospace",
+      fontSize: '16px',
+      letterSpacing: '1px',
+      color: '#3C3C3C',
+      margin: 0,
+    }}>
+      doomscroll Wikipedia
+    </p>
+  </div>
+</div>
+
 
         {/* Border Separator */}
         <div style={{

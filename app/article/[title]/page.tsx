@@ -115,9 +115,11 @@ export default function ArticleReaderPage() {
   };
 
   const searchArticle = () => {
-    // Open Google News search for the article title in the same page
-    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(title)}&tbm=nws`;
-  };
+  // Replace underscores with spaces before searching
+  const query = title.replace(/_/g, " ");
+  window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=nws`;
+};
+
 
   return (
     <>
