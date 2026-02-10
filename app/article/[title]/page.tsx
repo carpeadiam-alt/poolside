@@ -378,14 +378,28 @@ export default function ArticleReaderPage() {
 
           {/* Wikipedia Content */}
           {loading ? (
-            <div style={{
-              textAlign: 'center',
-              padding: '80px 20px',
-              color: '#666666',
-              fontSize: '14px',
-            }}>
-              Loading article...
-            </div>
+        <div style={{
+          textAlign: 'center',
+          padding: '80px 20px',
+          color: '#666666',
+          fontSize: '14px',
+        }}>
+          <img
+            src="https://thecodeworks.in/load1.gif" // placeholder URL
+            alt="Loading"
+            style={{
+              width: '32px',
+              height: '32px',
+              marginBottom: '16px',
+              objectFit: 'contain',
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          />
+
+          Loading article...
+        </div>
           ) : (
             <div 
               className="wiki-content"
