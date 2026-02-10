@@ -524,6 +524,8 @@ export default function FeedPage() {
                   justifyContent: 'center',
                   transition: 'all 0.2s ease',
                   fontSize: '30px',
+                  transform: 'translateY(-1px)',
+
                 }}
                 onMouseOver={(e) => {
                   e.currentTarget.style.backgroundColor = '#000000';
