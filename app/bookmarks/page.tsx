@@ -79,7 +79,7 @@ export default function BookmarksPage() {
           left: 0,
           right: 0,
           zIndex: 1000,
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar.png)',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           borderBottom: '1px solid #e5e5e5',
