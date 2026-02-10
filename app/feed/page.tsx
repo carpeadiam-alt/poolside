@@ -137,8 +137,8 @@ export default function FeedPage() {
         transition: 'transform 0.3s ease-in-out',
         boxShadow: `
           0 1px 0 #000000,
-          0 11px 0 #ffffff,
-          0 12px 0 #000000
+          0 8px 0 #ffffff,
+          0 10px 0 #000000
         `,
       }}>
 
@@ -194,14 +194,29 @@ export default function FeedPage() {
           padding: '120px 40px 60px',
         }}>
           {cards.length === 0 ? (
-            <div style={{
-              textAlign: 'center',
-              padding: '80px 20px',
-              color: '#666666',
-              fontSize: '14px',
-            }}>
-              Loading your feed...
-            </div>
+        <div style={{
+          textAlign: 'center',
+          padding: '80px 20px',
+          color: '#666666',
+          fontSize: '14px',
+        }}>
+          <img
+            src="https://thecodeworks.in/load1.gif" // placeholder URL
+            alt="Loading"
+            style={{
+              width: '32px',
+              height: '32px',
+              marginBottom: '16px',
+              objectFit: 'contain',
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            }}
+          />
+
+          Loading your feed...
+        </div>
+
           ) : (
             cards.map((card) => (
               <article
