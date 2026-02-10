@@ -76,7 +76,6 @@ export default function LoginPage() {
           <div style={{
             textAlign: 'center',
             color: '#ffffff',
-            textShadow: '2px 2px 4px rgba(0, 0, 0, 0.3)',
           }}>
             <h1 style={{
               fontFamily: "'DM Serif Text', serif",
