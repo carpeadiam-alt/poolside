@@ -19,7 +19,8 @@ export default function ArticleReaderPage() {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [liked, setLiked] = useState(false);
+  const [bookmarked, setBookmarked] = useState(false);
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -88,21 +89,22 @@ export default function ArticleReaderPage() {
   };
 
   const likeArticle = () => {
-    if (!user) return;
+    if (!user || liked) return;
     
-    // You'll need to get the page_id - for now using title as identifier
     fetch(`https://thecodeworks.in/pool/like`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         user_id: user.user_id,
-        page_id: title, // You may need to adjust this based on your backend
+        page_id: title,
       }),
     });
+    
+    setLiked(true);
   };
 
   const bookmarkArticle = () => {
-    if (!user) return;
+    if (!user || bookmarked) return;
     
     fetch(`https://thecodeworks.in/pool/bookmark`, {
       method: "POST",
@@ -112,19 +114,23 @@ export default function ArticleReaderPage() {
         page_id: title,
       }),
     });
+    
+    setBookmarked(true);
   };
 
   const searchArticle = () => {
-  // Replace underscores with spaces before searching
-  const query = title.replace(/_/g, " ");
-  window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=nws`;
-};
-
+    const query = title.replace(/_/g, " ");
+    window.location.href = `https://www.google.com/search?q=${encodeURIComponent(query)}&tbm=nws`;
+  };
 
   return (
     <>
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&display=swap');
+        
+        body {
+          overflow-x: hidden;
+        }
         
         .wiki-content a {
           color: #0066cc;
@@ -180,6 +186,9 @@ export default function ArticleReaderPage() {
           border-collapse: collapse;
           margin: 20px 0;
           font-size: 14px;
+          max-width: 100%;
+          overflow-x: auto;
+          display: block;
         }
         
         .wiki-content table td, .wiki-content table th {
@@ -213,101 +222,126 @@ export default function ArticleReaderPage() {
       <div style={{ 
         minHeight: '100vh', 
         backgroundColor: '#ffffff',
-        fontFamily: "'DM Mono', monospace"
+        fontFamily: "'DM Mono', monospace",
+        overflowX: 'hidden',
       }}>
         {/* Top Navigation Bar */}
-<header style={{
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 1000,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-  backdropFilter: 'blur(10px)',
-  transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
-  transition: 'transform 0.3s ease-in-out',
-  boxShadow: `
-    0 1px 0 #000000,
-    0 8px 0 #ffffff,
-    0 9px 0 #000000
-  `,
-}}>
-  <div style={{
-    padding: '20px 40px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'relative',
-  }}>
-    <h1 style={{
-      fontFamily: "'DM Serif Text', serif",
-      fontSize: '32px',
-      fontWeight: 400,
-      margin: 0,
-      color: '#004911',
-      letterSpacing: '-0.5px',
-    }}>
-      Reader
-    </h1>
-
-    {/* Menu Button */}
-    <div style={{ position: 'relative' }}>
-    <button onClick={() => setMenuOpen(!menuOpen)} style={{ backgroundColor: 'transparent', border: '1px solid #000000', padding: '8px 18px', fontSize: '13px', fontFamily: "'DM Mono', monospace", cursor: 'pointer', letterSpacing: '1px', }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#000000'; e.currentTarget.style.color = '#ffffff'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#000000'; }} > MENU </button>
-
-
-
-      {/* Dropdown */}
-      {menuOpen && (
-        <div style={{
-          position: 'absolute',
+        <header style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
           right: 0,
-          top: '110%',
-          backgroundColor: '#ffffff',
-          border: '1px solid #000000',
-          minWidth: '160px',
-          zIndex: 2000,
+          width: '100vw',
+          zIndex: 1000,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+          backdropFilter: 'blur(10px)',
+          transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out',
+          boxShadow: `
+            0 1px 0 #000000,
+            0 8px 0 #ffffff,
+            0 9px 0 #000000
+          `,
         }}>
-          {[
-            { label: '> Home', path: '/' },
-            { label: '> Bookmarks', path: '/bookmarks' },
-            { label: '> Logout', path: '/logout' },
-          ].map((item) => (
-            <div
-              key={item.label}
-              onClick={() => {
-                setMenuOpen(false);
-                router.push(item.path);
-              }}
-              style={{
-                padding: '12px 16px',
-                fontFamily: "'DM Mono', monospace",
-                fontSize: '13px',
-                cursor: 'pointer',
-                borderBottom: item.label !== 'Logout' ? '1px solid #e5e5e5' : 'none',
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.backgroundColor = '#f5f5f5';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-            >
-              {item.label}
+          <div style={{
+            maxWidth: '100vw',
+            padding: '20px 40px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            position: 'relative',
+            margin: '0 auto',
+          }}>
+            <h1 style={{
+              fontFamily: "'DM Serif Text', serif",
+              fontSize: '32px',
+              fontWeight: 400,
+              margin: 0,
+              color: '#004911',
+              letterSpacing: '-0.5px',
+            }}>
+              Reader
+            </h1>
+
+            {/* Menu Button */}
+            <div style={{ position: 'relative' }}>
+              <button 
+                onClick={() => setMenuOpen(!menuOpen)} 
+                style={{ 
+                  backgroundColor: 'transparent', 
+                  border: '1px solid #000000', 
+                  padding: '8px 18px', 
+                  fontSize: '13px', 
+                  fontFamily: "'DM Mono', monospace", 
+                  cursor: 'pointer', 
+                  letterSpacing: '1px',
+                  color: '#000000',
+                }} 
+                onMouseOver={(e) => { 
+                  e.currentTarget.style.backgroundColor = '#000000'; 
+                  e.currentTarget.style.color = '#ffffff'; 
+                }} 
+                onMouseOut={(e) => { 
+                  e.currentTarget.style.backgroundColor = 'transparent'; 
+                  e.currentTarget.style.color = '#000000'; 
+                }}
+              >
+                MENU
+              </button>
+
+              {/* Dropdown */}
+              {menuOpen && (
+                <div style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '110%',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #000000',
+                  minWidth: '160px',
+                  zIndex: 2000,
+                }}>
+                  {[
+                    { label: '> Home', path: '/' },
+                    { label: '> Bookmarks', path: '/bookmarks' },
+                    { label: '> Logout', path: '/logout' },
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        router.push(item.path);
+                      }}
+                      style={{
+                        padding: '12px 16px',
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        borderBottom: item.label !== '> Logout' ? '1px solid #e5e5e5' : 'none',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = '#ffffff';
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
-</header>
+          </div>
+        </header>
 
         {/* Article Content */}
         <main style={{
           maxWidth: '800px',
           margin: '0 auto',
           padding: '120px 40px 60px',
+          overflowX: 'hidden',
         }}>
           {/* Article Title */}
           <h1 style={{
@@ -333,54 +367,66 @@ export default function ArticleReaderPage() {
           }}>
             <button
               onClick={likeArticle}
+              disabled={liked}
               style={{
-                backgroundColor: 'transparent',
-                color: '#000000',
+                backgroundColor: liked ? '#000000' : 'transparent',
+                color: liked ? '#ffffff' : '#000000',
                 border: '1px solid #d0d0d0',
                 padding: '10px 20px',
                 fontSize: '13px',
                 fontFamily: "'DM Mono', monospace",
-                cursor: 'pointer',
+                cursor: liked ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s ease',
                 letterSpacing: '0.5px',
                 fontWeight: 400,
+                opacity: liked ? 0.8 : 1,
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.borderColor = '#000000';
-                e.currentTarget.style.backgroundColor = '#f5f5f5';
+                if (!liked) {
+                  e.currentTarget.style.borderColor = '#000000';
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                }
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.borderColor = '#d0d0d0';
-                e.currentTarget.style.backgroundColor = 'transparent';
+                if (!liked) {
+                  e.currentTarget.style.borderColor = '#d0d0d0';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
               }}
             >
-              LIKE
+              {liked ? 'LIKED' : 'LIKE'}
             </button>
 
             <button
               onClick={bookmarkArticle}
+              disabled={bookmarked}
               style={{
-                backgroundColor: 'transparent',
-                color: '#000000',
+                backgroundColor: bookmarked ? '#000000' : 'transparent',
+                color: bookmarked ? '#ffffff' : '#000000',
                 border: '1px solid #d0d0d0',
                 padding: '10px 20px',
                 fontSize: '13px',
                 fontFamily: "'DM Mono', monospace",
-                cursor: 'pointer',
+                cursor: bookmarked ? 'not-allowed' : 'pointer',
                 transition: 'all 0.2s ease',
                 letterSpacing: '0.5px',
                 fontWeight: 400,
+                opacity: bookmarked ? 0.8 : 1,
               }}
               onMouseOver={(e) => {
-                e.currentTarget.style.borderColor = '#000000';
-                e.currentTarget.style.backgroundColor = '#f5f5f5';
+                if (!bookmarked) {
+                  e.currentTarget.style.borderColor = '#000000';
+                  e.currentTarget.style.backgroundColor = '#f5f5f5';
+                }
               }}
               onMouseOut={(e) => {
-                e.currentTarget.style.borderColor = '#d0d0d0';
-                e.currentTarget.style.backgroundColor = 'transparent';
+                if (!bookmarked) {
+                  e.currentTarget.style.borderColor = '#d0d0d0';
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                }
               }}
             >
-              BOOKMARK
+              {bookmarked ? 'BOOKMARKED' : 'BOOKMARK'}
             </button>
 
             <button
@@ -410,28 +456,27 @@ export default function ArticleReaderPage() {
 
           {/* Wikipedia Content */}
           {loading ? (
-        <div style={{
-          textAlign: 'center',
-          padding: '80px 20px',
-          color: '#666666',
-          fontSize: '14px',
-        }}>
-          <img
-            src="https://thecodeworks.in/load1.gif" // placeholder URL
-            alt="Loading"
-            style={{
-              width: '32px',
-              height: '32px',
-              marginBottom: '16px',
-              objectFit: 'contain',
-              display: 'block',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
-
-          Loading article...
-        </div>
+            <div style={{
+              textAlign: 'center',
+              padding: '80px 20px',
+              color: '#666666',
+              fontSize: '14px',
+            }}>
+              <img
+                src="https://thecodeworks.in/load1.gif"
+                alt="Loading"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  marginBottom: '16px',
+                  objectFit: 'contain',
+                  display: 'block',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+              />
+              Loading article...
+            </div>
           ) : (
             <div 
               className="wiki-content"
@@ -440,6 +485,7 @@ export default function ArticleReaderPage() {
                 fontSize: '16px',
                 lineHeight: '1.8',
                 color: '#1a1a1a',
+                overflowX: 'auto',
               }}
               dangerouslySetInnerHTML={{ __html: content }}
             />
