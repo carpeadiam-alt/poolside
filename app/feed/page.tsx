@@ -123,25 +123,24 @@ export default function FeedPage() {
         fontFamily: "'DM Mono', monospace"
       }}>
         {/* Top Navigation Bar */}
-      <header style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-        backdropFilter: 'blur(10px)',
-        transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
-        transition: 'transform 0.3s ease-in-out',
-        boxShadow: `
-          0 1px 0 #000000,
-          0 8px 0 #ffffff,
-          0 9px 0 #000000
-        `,
-      }}>
-
+        <header style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 1000,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+          backdropFilter: 'blur(10px)',
+          transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out',
+          boxShadow: `
+            0 1px 0 #000000,
+            0 8px 0 #ffffff,
+            0 9px 0 #000000
+          `,
+        }}>
           <div style={{
             padding: '20px 40px',
             display: 'flex',
@@ -158,34 +157,61 @@ export default function FeedPage() {
             }}>
               Feed
             </h1>
-            
-            <button
-              onClick={() => router.push('/bookmarks')}
-              style={{
-                backgroundColor: 'transparent',
-                border: '1px solid #000000',
-                padding: '10px 24px',
-                fontSize: '14px',
-                fontFamily: "'DM Mono', monospace",
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-                color: '#000000',
-                fontWeight: 400,
-                letterSpacing: '0.5px',
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.backgroundColor = '#000000';
-                e.currentTarget.style.color = '#ffffff';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.backgroundColor = 'transparent';
-                e.currentTarget.style.color = '#000000';
-              }}
-            >
-              BOOKMARKS
-            </button>
+
+            {/* Icon Actions */}
+            <div style={{
+              display: 'flex',
+              gap: '18px',
+              alignItems: 'center',
+            }}>
+              {/* Home */}
+              <img
+                src="https://thecodeworks.in/icon_home.png"
+                alt="Home"
+                onClick={() => router.push('/')}
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s ease',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.opacity = '0.6')}
+                onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
+              />
+
+              {/* Bookmarks */}
+              <img
+                src="https://thecodeworks.in/icon_bookmark.png"
+                alt="Bookmarks"
+                onClick={() => router.push('/bookmarks')}
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s ease',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.opacity = '0.6')}
+                onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
+              />
+
+              {/* Logout */}
+              <img
+                src="https://thecodeworks.in/icon_logout.png"
+                alt="Logout"
+                onClick={() => router.push('/logout')}
+                style={{
+                  width: '22px',
+                  height: '22px',
+                  cursor: 'pointer',
+                  transition: 'opacity 0.2s ease',
+                }}
+                onMouseOver={(e) => (e.currentTarget.style.opacity = '0.6')}
+                onMouseOut={(e) => (e.currentTarget.style.opacity = '1')}
+              />
+            </div>
           </div>
         </header>
+
 
         {/* Feed Content */}
         <main style={{
