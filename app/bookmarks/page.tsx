@@ -83,7 +83,7 @@ export default function BookmarksPage() {
   zIndex: 1000,
   backgroundSize: 'cover',
   backgroundPosition: 'center',
-  backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+  backgroundImage: 'url(/images/pool_bar1.png)',
   backdropFilter: 'blur(10px)',
   transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
   transition: 'transform 0.3s ease-in-out',

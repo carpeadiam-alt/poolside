@@ -65,7 +65,7 @@ export default function LoginPage() {
         {/* Top Image Section */}
         <div style={{
           position: 'relative',
-          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+          backgroundImage: 'url(/images/pool_bar1.png)',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'cover',
@@ -110,7 +110,7 @@ export default function LoginPage() {
         {/* Form Section */}
         <div style={{
           flex: 1,
-          backgroundImage: 'url(https://thecodeworks.in/grid_image.png)',
+          backgroundImage: 'url(/images/grid_image.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
