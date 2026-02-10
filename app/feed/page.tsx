@@ -524,16 +524,22 @@ export default function FeedPage() {
                   transition: 'all 0.2s ease',
                   fontSize: '40px',
                   transform: 'translateY(-3px)',
+                  border: 'none',
+                  outline: 'none',
+                  boxShadow: 'none',
+                  appearance: 'none',
+                  WebkitAppearance: 'none',
 
                 }}
                 onMouseOver={(e) => {
-                  e.currentTarget.style.backgroundColor = '#000000';
-                  e.currentTarget.style.color = '#ffffff';
+                  e.currentTarget.style.backgroundColor = '#000';
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.05)';
                 }}
                 onMouseOut={(e) => {
                   e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = '#000000';
+                  e.currentTarget.style.transform = 'translateY(-3px)';
                 }}
+
               >
                 ⟳
               </button>
