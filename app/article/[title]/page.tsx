@@ -91,7 +91,7 @@ export default function ArticleReaderPage() {
   const likeArticle = () => {
     if (!user || liked) return;
     
-    fetch(`https://thecodeworks.in/pool/like`, {
+    fetch(`https://thecodeworks.in/pool/like_by_title`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -106,7 +106,7 @@ export default function ArticleReaderPage() {
   const bookmarkArticle = () => {
     if (!user || bookmarked) return;
     
-    fetch(`https://thecodeworks.in/pool/bookmark`, {
+    fetch(`https://thecodeworks.in/pool/bookmark_by_title`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
