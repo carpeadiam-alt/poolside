@@ -168,32 +168,27 @@ export default function FeedPage() {
     <div
       onClick={() => setMenuOpen(!menuOpen)}
       style={{
-        width: '36px',
-        height: '28px',
-        border: '1px solid #000000',
+        width: '28px',
+        height: '22px',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
-        gap: '5px',
-        padding: '6px',
+        justifyContent: 'space-between',
         cursor: 'pointer',
-        transition: 'background-color 0.2s ease',
       }}
       onMouseOver={(e) => {
-        e.currentTarget.style.backgroundColor = '#ffffff';
         const lines = e.currentTarget.querySelectorAll('div');
-        lines.forEach((line) => (line.style.backgroundColor = '#000000'));
+        lines.forEach((line) => (line.style.opacity = '0.6'));
       }}
       onMouseOut={(e) => {
-        e.currentTarget.style.backgroundColor = 'transparent';
         const lines = e.currentTarget.querySelectorAll('div');
-        lines.forEach((line) => (line.style.backgroundColor = '#ffffff'));
+        lines.forEach((line) => (line.style.opacity = '1'));
       }}
     >
-      <div style={{ height: '2px', backgroundColor: '#ffffff' }} />
-      <div style={{ height: '2px', backgroundColor: '#ffffff' }} />
-      <div style={{ height: '2px', backgroundColor: '#ffffff' }} />
+      <div style={{ width: '100%', height: '2px', backgroundColor: '#ffffff' }} />
+      <div style={{ width: '100%', height: '2px', backgroundColor: '#ffffff' }} />
+      <div style={{ width: '100%', height: '2px', backgroundColor: '#ffffff' }} />
     </div>
+
 
 
       {/* Dropdown */}
