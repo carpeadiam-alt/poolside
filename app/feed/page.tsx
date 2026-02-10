@@ -138,7 +138,7 @@ export default function FeedPage() {
         boxShadow: `
           0 1px 0 #000000,
           0 8px 0 #ffffff,
-          0 10px 0 #000000
+          0 9px 0 #000000
         `,
       }}>
 
