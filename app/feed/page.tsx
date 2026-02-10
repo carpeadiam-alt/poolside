@@ -165,28 +165,36 @@ export default function FeedPage() {
 
     {/* Menu Button */}
     <div style={{ position: 'relative' }}>
-      <button
-        onClick={() => setMenuOpen(!menuOpen)}
-        style={{
-          backgroundColor: 'transparent',
-          border: '1px solid #000000',
-          padding: '8px 18px',
-          fontSize: '13px',
-          fontFamily: "'DM Mono', monospace",
-          cursor: 'pointer',
-          letterSpacing: '1px',
-        }}
-        onMouseOver={(e) => {
-          e.currentTarget.style.backgroundColor = '#000000';
-          e.currentTarget.style.color = '#ffffff';
-        }}
-        onMouseOut={(e) => {
-          e.currentTarget.style.backgroundColor = 'transparent';
-          e.currentTarget.style.color = '#000000';
-        }}
-      >
-        MENU
-      </button>
+    <div
+      onClick={() => setMenuOpen(!menuOpen)}
+      style={{
+        width: '36px',
+        height: '28px',
+        border: '1px solid #000000',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        gap: '5px',
+        padding: '6px',
+        cursor: 'pointer',
+        transition: 'background-color 0.2s ease',
+      }}
+      onMouseOver={(e) => {
+        e.currentTarget.style.backgroundColor = '#ffffff';
+        const lines = e.currentTarget.querySelectorAll('div');
+        lines.forEach((line) => (line.style.backgroundColor = '#000000'));
+      }}
+      onMouseOut={(e) => {
+        e.currentTarget.style.backgroundColor = 'transparent';
+        const lines = e.currentTarget.querySelectorAll('div');
+        lines.forEach((line) => (line.style.backgroundColor = '#ffffff'));
+      }}
+    >
+      <div style={{ height: '2px', backgroundColor: '#ffffff' }} />
+      <div style={{ height: '2px', backgroundColor: '#ffffff' }} />
+      <div style={{ height: '2px', backgroundColor: '#ffffff' }} />
+    </div>
+
 
       {/* Dropdown */}
       {menuOpen && (
@@ -200,9 +208,9 @@ export default function FeedPage() {
           zIndex: 2000,
         }}>
           {[
-            { label: 'Home', path: '/' },
-            { label: 'Bookmarks', path: '/bookmarks' },
-            { label: 'Logout', path: '/logout' },
+            { label: '> Home', path: '/' },
+            { label: '> Bookmarks', path: '/bookmarks' },
+            { label: '> Logout', path: '/logout' },
           ].map((item) => (
             <div
               key={item.label}
