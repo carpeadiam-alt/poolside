@@ -72,7 +72,7 @@ export default function LoginPage() {
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
-  padding: '120px 40px', // ← THIS controls height now
+  padding: '80px 30px', // ← THIS controls height now
 }}>
   <div style={{
     textAlign: 'center',
