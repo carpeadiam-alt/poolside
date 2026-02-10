@@ -88,7 +88,7 @@ export default function BookmarksPage() {
           transition: 'transform 0.3s ease-in-out',
         }}>
           <div style={{
-            padding: '20px 40px',
+            padding: '15px 32px',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
