@@ -67,7 +67,6 @@ export default function LoginPage() {
           position: 'relative',
           height: '300px',
           backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-          backgroundSize: 'cover',
           backgroundPosition: 'center',
           display: 'flex',
           alignItems: 'center',
