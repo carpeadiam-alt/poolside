@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-
-
 interface User {
   user_id: number;
   username: string;
@@ -27,7 +25,8 @@ export default function FeedPage() {
   const [showHeader, setShowHeader] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
-
+  const [likedArticles, setLikedArticles] = useState<Set<number>>(new Set());
+  const [bookmarkedArticles, setBookmarkedArticles] = useState<Set<number>>(new Set());
 
   useEffect(() => {
     const raw = localStorage.getItem("user");
@@ -81,7 +80,7 @@ export default function FeedPage() {
   }
 
   function likeArticle(card: FeedCard) {
-    if (!user) return;
+    if (!user || likedArticles.has(card.page_id)) return;
 
     fetch(`https://thecodeworks.in/pool/like`, {
       method: "POST",
@@ -91,10 +90,12 @@ export default function FeedPage() {
         page_id: card.page_id,
       }),
     });
+    
+    setLikedArticles(prev => new Set(prev).add(card.page_id));
   }
 
   function bookmarkArticle(card: FeedCard) {
-    if (!user) return;
+    if (!user || bookmarkedArticles.has(card.page_id)) return;
 
     fetch(`https://thecodeworks.in/pool/bookmark`, {
       method: "POST",
@@ -104,6 +105,8 @@ export default function FeedPage() {
         page_id: card.page_id,
       }),
     });
+    
+    setBookmarkedArticles(prev => new Set(prev).add(card.page_id));
   }
 
   function openArticle(card: FeedCard) {
@@ -127,93 +130,111 @@ export default function FeedPage() {
         fontFamily: "'DM Mono', monospace"
       }}>
         {/* Top Navigation Bar */}
-<header style={{
-  position: 'fixed',
-  top: 0,
-  left: 0,
-  right: 0,
-  zIndex: 1000,
-  backgroundSize: 'cover',
-  backgroundPosition: 'center',
-  backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
-  backdropFilter: 'blur(10px)',
-  transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
-  transition: 'transform 0.3s ease-in-out',
-  boxShadow: `
-    0 1px 0 #000000,
-    0 8px 0 #ffffff,
-    0 9px 0 #000000
-  `,
-}}>
-  <div style={{
-    padding: '20px 40px',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    position: 'relative',
-  }}>
-    <h1 style={{
-      fontFamily: "'DM Serif Text', serif",
-      fontSize: '32px',
-      fontWeight: 400,
-      margin: 0,
-      color: '#004911',
-      letterSpacing: '-0.5px',
-    }}>
-      Feed
-    </h1>
-
-    {/* Menu Button */}
-    <div style={{ position: 'relative' }}>
-    <button onClick={() => setMenuOpen(!menuOpen)} style={{ backgroundColor: 'transparent', border: '1px solid #000000', padding: '8px 18px', fontSize: '13px', fontFamily: "'DM Mono', monospace", cursor: 'pointer', letterSpacing: '1px', }} onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#000000'; e.currentTarget.style.color = '#ffffff'; }} onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.color = '#000000'; }} > MENU </button>
-
-
-
-      {/* Dropdown */}
-      {menuOpen && (
-        <div style={{
-          position: 'absolute',
+        <header style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
           right: 0,
-          top: '110%',
-          backgroundColor: '#ffffff',
-          border: '1px solid #000000',
-          minWidth: '160px',
-          zIndex: 2000,
+          zIndex: 1000,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
+          backdropFilter: 'blur(10px)',
+          transform: showHeader ? 'translateY(0)' : 'translateY(-100%)',
+          transition: 'transform 0.3s ease-in-out',
+          boxShadow: `
+            0 1px 0 #000000,
+            0 8px 0 #ffffff,
+            0 9px 0 #000000
+          `,
         }}>
-          {[
-            { label: '> Home', path: '/' },
-            { label: '> Bookmarks', path: '/bookmarks' },
-            { label: '> Logout', path: '/logout' },
-          ].map((item) => (
-            <div
-              key={item.label}
-              onClick={() => {
-                setMenuOpen(false);
-                router.push(item.path);
-              }}
-              style={{
-                padding: '12px 16px',
-                fontFamily: "'DM Mono', monospace",
-                fontSize: '13px',
-                cursor: 'pointer',
-                borderBottom: item.label !== 'Logout' ? '1px solid #e5e5e5' : 'none',
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.backgroundColor = '#f5f5f5';
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.backgroundColor = '#ffffff';
-              }}
-            >
-              {item.label}
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
-  </div>
-</header>
+          <div style={{
+            padding: '20px 40px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            position: 'relative',
+          }}>
+            <h1 style={{
+              fontFamily: "'DM Serif Text', serif",
+              fontSize: '32px',
+              fontWeight: 400,
+              margin: 0,
+              color: '#004911',
+              letterSpacing: '-0.5px',
+            }}>
+              Feed
+            </h1>
 
+            {/* Menu Button */}
+            <div style={{ position: 'relative' }}>
+              <button 
+                onClick={() => setMenuOpen(!menuOpen)} 
+                style={{ 
+                  backgroundColor: 'transparent', 
+                  border: '1px solid #000000', 
+                  padding: '8px 18px', 
+                  fontSize: '13px', 
+                  fontFamily: "'DM Mono', monospace", 
+                  cursor: 'pointer', 
+                  letterSpacing: '1px', 
+                }} 
+                onMouseOver={(e) => { 
+                  e.currentTarget.style.backgroundColor = '#000000'; 
+                  e.currentTarget.style.color = '#ffffff'; 
+                }} 
+                onMouseOut={(e) => { 
+                  e.currentTarget.style.backgroundColor = 'transparent'; 
+                  e.currentTarget.style.color = '#000000'; 
+                }}
+              >
+                MENU
+              </button>
+
+              {/* Dropdown */}
+              {menuOpen && (
+                <div style={{
+                  position: 'absolute',
+                  right: 0,
+                  top: '110%',
+                  backgroundColor: '#ffffff',
+                  border: '1px solid #000000',
+                  minWidth: '160px',
+                  zIndex: 2000,
+                }}>
+                  {[
+                    { label: '> Home', path: '/' },
+                    { label: '> Bookmarks', path: '/bookmarks' },
+                    { label: '> Logout', path: '/logout' },
+                  ].map((item) => (
+                    <div
+                      key={item.label}
+                      onClick={() => {
+                        setMenuOpen(false);
+                        router.push(item.path);
+                      }}
+                      style={{
+                        padding: '12px 16px',
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: '13px',
+                        cursor: 'pointer',
+                        borderBottom: item.label !== '> Logout' ? '1px solid #e5e5e5' : 'none',
+                      }}
+                      onMouseOver={(e) => {
+                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                      }}
+                      onMouseOut={(e) => {
+                        e.currentTarget.style.backgroundColor = '#ffffff';
+                      }}
+                    >
+                      {item.label}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </header>
 
         {/* Feed Content */}
         <main style={{
@@ -222,29 +243,27 @@ export default function FeedPage() {
           padding: '120px 40px 60px',
         }}>
           {cards.length === 0 ? (
-        <div style={{
-          textAlign: 'center',
-          padding: '80px 20px',
-          color: '#666666',
-          fontSize: '14px',
-        }}>
-          <img
-            src="https://thecodeworks.in/load1.gif" // placeholder URL
-            alt="Loading"
-            style={{
-              width: '32px',
-              height: '32px',
-              marginBottom: '16px',
-              objectFit: 'contain',
-              display: 'block',
-              marginLeft: 'auto',
-              marginRight: 'auto',
-            }}
-          />
-
-          Loading your feed...
-        </div>
-
+            <div style={{
+              textAlign: 'center',
+              padding: '80px 20px',
+              color: '#666666',
+              fontSize: '14px',
+            }}>
+              <img
+                src="https://thecodeworks.in/load1.gif"
+                alt="Loading"
+                style={{
+                  width: '32px',
+                  height: '32px',
+                  marginBottom: '16px',
+                  objectFit: 'contain',
+                  display: 'block',
+                  marginLeft: 'auto',
+                  marginRight: 'auto',
+                }}
+              />
+              Loading your feed...
+            </div>
           ) : (
             cards.map((card) => (
               <article
@@ -388,59 +407,97 @@ export default function FeedPage() {
 
                     <button
                       onClick={() => likeArticle(card)}
+                      disabled={likedArticles.has(card.page_id)}
                       style={{
-                        backgroundColor: 'transparent',
-                        color: '#000000',
+                        backgroundColor: likedArticles.has(card.page_id) ? '#000000' : 'transparent',
+                        color: likedArticles.has(card.page_id) ? '#ffffff' : '#000000',
                         border: '1px solid #d0d0d0',
                         padding: '10px 20px',
                         fontSize: '12px',
                         fontFamily: "'DM Mono', monospace",
-                        cursor: 'pointer',
+                        cursor: likedArticles.has(card.page_id) ? 'not-allowed' : 'pointer',
                         transition: 'all 0.2s ease',
                         letterSpacing: '0.5px',
                         fontWeight: 400,
+                        opacity: likedArticles.has(card.page_id) ? 0.8 : 1,
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.borderColor = '#000000';
-                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                        if (!likedArticles.has(card.page_id)) {
+                          e.currentTarget.style.borderColor = '#000000';
+                          e.currentTarget.style.backgroundColor = '#f5f5f5';
+                        }
                       }}
                       onMouseOut={(e) => {
-                        e.currentTarget.style.borderColor = '#d0d0d0';
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        if (!likedArticles.has(card.page_id)) {
+                          e.currentTarget.style.borderColor = '#d0d0d0';
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }
                       }}
                     >
-                      LIKE
+                      {likedArticles.has(card.page_id) ? 'LIKED' : 'LIKE'}
                     </button>
 
                     <button
                       onClick={() => bookmarkArticle(card)}
+                      disabled={bookmarkedArticles.has(card.page_id)}
                       style={{
-                        backgroundColor: 'transparent',
-                        color: '#000000',
+                        backgroundColor: bookmarkedArticles.has(card.page_id) ? '#000000' : 'transparent',
+                        color: bookmarkedArticles.has(card.page_id) ? '#ffffff' : '#000000',
                         border: '1px solid #d0d0d0',
                         padding: '10px 20px',
                         fontSize: '12px',
                         fontFamily: "'DM Mono', monospace",
-                        cursor: 'pointer',
+                        cursor: bookmarkedArticles.has(card.page_id) ? 'not-allowed' : 'pointer',
                         transition: 'all 0.2s ease',
                         letterSpacing: '0.5px',
                         fontWeight: 400,
+                        opacity: bookmarkedArticles.has(card.page_id) ? 0.8 : 1,
                       }}
                       onMouseOver={(e) => {
-                        e.currentTarget.style.borderColor = '#000000';
-                        e.currentTarget.style.backgroundColor = '#f5f5f5';
+                        if (!bookmarkedArticles.has(card.page_id)) {
+                          e.currentTarget.style.borderColor = '#000000';
+                          e.currentTarget.style.backgroundColor = '#f5f5f5';
+                        }
                       }}
                       onMouseOut={(e) => {
-                        e.currentTarget.style.borderColor = '#d0d0d0';
-                        e.currentTarget.style.backgroundColor = 'transparent';
+                        if (!bookmarkedArticles.has(card.page_id)) {
+                          e.currentTarget.style.borderColor = '#d0d0d0';
+                          e.currentTarget.style.backgroundColor = 'transparent';
+                        }
                       }}
                     >
-                      BOOKMARK
+                      {bookmarkedArticles.has(card.page_id) ? 'BOOKMARKED' : 'BOOKMARK'}
                     </button>
                   </div>
                 </div>
               </article>
             ))
+          )}
+
+          {/* Footer Section */}
+          {cards.length > 0 && user && (
+            <div style={{
+              marginTop: '60px',
+              paddingTop: '32px',
+              borderTop: '1px solid #e5e5e5',
+              textAlign: 'center',
+            }}>
+              <p style={{
+                fontFamily: "'DM Serif Text', serif",
+                fontSize: '18px',
+                color: '#000000',
+                marginBottom: '8px',
+              }}>
+                hey, {user.username}
+              </p>
+              <p style={{
+                fontSize: '13px',
+                color: '#666666',
+                letterSpacing: '0.5px',
+              }}>
+                {cards.length} {cards.length === 1 ? 'article' : 'articles'} in your feed
+              </p>
+            </div>
           )}
         </main>
       </div>
