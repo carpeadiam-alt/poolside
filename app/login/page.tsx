@@ -65,8 +65,7 @@ export default function LoginPage() {
         {/* Top Image Section */}
         <div style={{
           position: 'relative',
-          width: '100%',
-          height: '50vh',
+          height: '300px',
           backgroundImage: 'url(https://thecodeworks.in/pool_bar1.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
@@ -81,17 +80,19 @@ export default function LoginPage() {
           }}>
             <h1 style={{
               fontFamily: "'DM Serif Text', serif",
+              color:'#004911',
               fontSize: '64px',
               fontWeight: 400,
               marginBottom: '8px',
               letterSpacing: '-1px',
             }}>
-              pool
+              pooL
             </h1>
             <p style={{
               fontFamily: "'DM Mono', monospace",
               fontSize: '16px',
               letterSpacing: '1px',
+              color:'#3C3C3C',
             }}>
               doomscoll Wikipedia
             </p>
@@ -102,7 +103,7 @@ export default function LoginPage() {
         <div style={{
           borderTop: '1px solid #000000',
           borderBottom: '1px solid #000000',
-          padding: '7px 0',
+          padding: '5px 0',
           backgroundColor: '#ffffff',
         }} />
 
